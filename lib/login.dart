@@ -1,8 +1,10 @@
 import 'dart:ui';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'home.dart';
+import 'slider.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -226,7 +228,6 @@ class _LoginPageState extends State<LoginPage> {
                                         );
                                       });
                                 }
-                                ;
                               },
                               child: Center(
                                 child: Text("SignIn",
@@ -239,24 +240,47 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                         ),
-                      )
+                      ),
                     ],
-                  ),
-                  SizedBox(
-                    height: ScreenUtil().setHeight(50),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Expanded(
-                          child: Padding(
-                              padding: EdgeInsets.only(left: 120, top: 70.0),
-                              child: Text("E-Libbrary Apps",
+                          child: RichText(
+                              text: TextSpan(
                                   style: TextStyle(
-                                      fontSize: 10.0,
-                                      fontFamily: "Poppins-Medium")))),
+                                    color: Colors.blue,
+                                  ),
+                                  text: '<Back',
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () async {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => SliderPage()),
+                                      );
+                                    }))),
                     ],
-                  )
+                  ),
+                  SizedBox(
+                    height: 75,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                          child: Padding(
+                        padding: EdgeInsets.only(left: 120),
+                        child: Text(
+                          "E-Libbrary Apps",
+                          style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontSize: 10,
+                              fontFamily: "Poppins-Bold"),
+                        ),
+                      ))
+                    ],
+                  ),
                 ],
               ),
             ),

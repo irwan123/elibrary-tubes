@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'slider.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -175,7 +177,25 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
                       SizedBox(
-                        height: 54,
+                        height: 20,
+                      ),
+                      Expanded(
+                          child: RichText(
+                              text: TextSpan(
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                  ),
+                                  text: '<Back',
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () async {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => SliderPage()),
+                                      );
+                                    }))),
+                      SizedBox(
+                        height: 15,
                       ),
                       Text(
                         "E-Libbrary Apps",

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
 import 'dart:async';
+import 'slider.dart';
 
 class SplashScreenPage extends StatefulWidget {
   @override
@@ -19,7 +19,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
     return Timer(duration, () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) {
-          return LoginPage();
+          return SliderPage();
         }),
       );
     });
@@ -31,7 +31,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
       backgroundColor: Color(0xff329cef),
       body: Center(
         child: Image.asset(
-          "images/Splash.png",
+          "images/splashh.png",
         ),
       ),
     );
