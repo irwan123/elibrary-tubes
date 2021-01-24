@@ -1,10 +1,12 @@
 import 'dart:ui';
 
+import 'package:elibrary/dashboard.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'home.dart';
 import 'slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -12,8 +14,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController userControl = new TextEditingController();
-  TextEditingController passControl = new TextEditingController();
+  String _email, _password;
+  final auth = FirebaseAuth.instance;
+
   Widget horizontalLine() => Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 10.0,
@@ -105,11 +108,16 @@ class _LoginPageState extends State<LoginPage> {
                                 height: ScreenUtil().setHeight(40),
                               ),
                               TextFormField(
+                                keyboardType: TextInputType.emailAddress,
                                 decoration: InputDecoration(
-                                    hintText: "Username",
+                                    hintText: "E-mail",
                                     hintStyle: TextStyle(
                                         color: Colors.grey, fontSize: 15.0)),
-                                controller: userControl,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _email = value.trim();
+                                  });
+                                },
                               ),
                               SizedBox(
                                 height: ScreenUtil().setHeight(40),
@@ -120,7 +128,11 @@ class _LoginPageState extends State<LoginPage> {
                                     hintText: "Password",
                                     hintStyle: TextStyle(
                                         color: Colors.grey, fontSize: 15.0)),
-                                controller: passControl,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _password = value.trim();
+                                  });
+                                },
                               ),
                               SizedBox(
                                 height: ScreenUtil().setHeight(40),
@@ -165,69 +177,16 @@ class _LoginPageState extends State<LoginPage> {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () async {
-                                if (userControl.text == 'irwanrham' &&
-                                    passControl.text == '123') {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => HomePage(
-                                              user: userControl.text,
-                                            )),
-                                  );
-                                } else {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return Dialog(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20.0),
-                                          ),
-                                          child: Container(
-                                            height: 200,
-                                            child: Padding(
-                                              padding: EdgeInsets.all(12.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: <Widget>[
-                                                  TextField(
-                                                    decoration: InputDecoration(
-                                                        border:
-                                                            InputBorder.none,
-                                                        hintText:
-                                                            "Inccorect Username or Password !"),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 320.0,
-                                                    child: RaisedButton(
-                                                      color:
-                                                          Colors.redAccent[400],
-                                                      onPressed: () {
-                                                        Navigator.pushReplacement(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        LoginPage()));
-                                                      },
-                                                      child: Text(
-                                                        "Okay",
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      });
-                                }
+                                auth
+                                    .signInWithEmailAndPassword(
+                                        email: _email, password: _password)
+                                    .then((_) {
+                                  Navigator.of(context)
+                                      .pushReplacement(MaterialPageRoute(
+                                          builder: (context) => DashboardPage(
+                                                email: _email,
+                                              )));
+                                });
                               },
                               child: Center(
                                 child: Text("SignIn",

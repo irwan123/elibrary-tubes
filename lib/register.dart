@@ -1,13 +1,19 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterPage extends StatefulWidget {
+  final Function toggleView;
+  RegisterPage({this.toggleView});
   @override
   _RegisterPageState createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  String _email, _password;
+  final auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,61 +89,41 @@ class _RegisterPageState extends State<RegisterPage> {
                                   border: Border(
                                       bottom:
                                           BorderSide(color: Colors.grey[200]))),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                    hintText: "Name",
-                                    hintStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontFamily: "Poppins-Bold"),
-                                    border: InputBorder.none),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                      bottom:
-                                          BorderSide(color: Colors.grey[200]))),
-                              child: TextField(
+                              child: TextFormField(
+                                keyboardType: TextInputType.emailAddress,
                                 decoration: InputDecoration(
                                     hintText: "Email",
                                     hintStyle: TextStyle(
                                         color: Colors.grey,
                                         fontFamily: "Poppins-Bold"),
                                     border: InputBorder.none),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _email = value.trim();
+                                  });
+                                },
                               ),
                             ),
                             Container(
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                      bottom:
-                                          BorderSide(color: Colors.grey[200]))),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                    hintText: "Username",
-                                    hintStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontFamily: "Poppins-Bold"),
-                                    border: InputBorder.none),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                      bottom:
-                                          BorderSide(color: Colors.grey[200]))),
-                              child: TextField(
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                    hintText: "Password",
-                                    hintStyle: TextStyle(
-                                        color: Colors.grey,
-                                        fontFamily: "Poppins-Bold"),
-                                    border: InputBorder.none),
-                              ),
-                            ),
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Colors.grey[200]))),
+                                child: TextFormField(
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                      hintText: "Password",
+                                      hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontFamily: "Poppins-Bold"),
+                                      border: InputBorder.none),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _password = value.trim();
+                                    });
+                                  },
+                                )),
                           ],
                         ),
                       ),
@@ -163,7 +149,17 @@ class _RegisterPageState extends State<RegisterPage> {
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: () async {},
+                              onTap: () async {
+                                auth
+                                    .createUserWithEmailAndPassword(
+                                        email: _email, password: _password)
+                                    .then((_) {
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              RegisterPage()));
+                                });
+                              },
                               child: Center(
                                 child: Text("SignUp",
                                     style: TextStyle(

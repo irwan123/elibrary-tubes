@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'ItemsHome1.dart';
 
 class HomePage extends StatefulWidget {
-  String user;
-  HomePage({@required this.user});
+  String email;
+  HomePage({@required this.email});
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -44,13 +44,13 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: 5,
                   ),
-                  Text(
-                    widget.user,
+                  /* Text(
+                    widget.email,
                     style: TextStyle(
                         color: Colors.white54,
                         fontFamily: "Poppins-Medium",
                         fontSize: 18),
-                  ),
+                  ), */
                   SizedBox(
                     height: 10,
                   ),
@@ -95,64 +95,8 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            Items1(),
-            SizedBox(
-              height: 285,
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(right: 195),
-                    child: Text(
-                      "List Books :",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: "Poppins-Bold",
-                          fontSize: 20),
-                    ),
-                  ),
-                  Items1(),
-                  SizedBox(
-                    height: 135,
-                  )
-                ],
-              ),
-            ),
           ],
         ),
-      ),
-      bottomNavigationBar: CurvedNavigationBar(
-        color: Colors.white,
-        backgroundColor: Color(0xFF398AE5),
-        height: 60,
-        buttonBackgroundColor: Colors.white,
-        items: <Widget>[
-          Icon(
-            Icons.home,
-            size: 20,
-            color: Colors.black,
-          ),
-          Icon(
-            Icons.list,
-            size: 20,
-            color: Colors.black,
-          ),
-          Icon(
-            Icons.add_box,
-            size: 20,
-            color: Colors.black,
-          ),
-          Icon(
-            Icons.cached,
-            size: 20,
-            color: Colors.black,
-          ),
-          Icon(
-            Icons.person,
-            size: 20,
-            color: Colors.black,
-          )
-        ],
-        onTap: (index) {},
       ),
     );
   }
