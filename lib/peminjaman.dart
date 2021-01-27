@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Peminjaman extends StatefulWidget {
   @override
@@ -6,233 +7,82 @@ class Peminjaman extends StatefulWidget {
 }
 
 class _PeminjamanState extends State<Peminjaman> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Pesanan Buku',
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontFamily: "Poppins-Medium")),
-        backgroundColor: Color(0xFF61A4F1),
-      ),
-      backgroundColor: Color(0xFF73AEF5),
-      body: ListView(
-        scrollDirection: Axis.vertical,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Container(
-              child: new FittedBox(
-                child: Material(
-                    color: Colors.white,
-                    elevation: 14.0,
-                    borderRadius: BorderRadius.circular(24.0),
-                    shadowColor: Color(0x802196F3),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          width: 100,
-                          height: 130,
-                          child: ClipRRect(
-                            borderRadius: new BorderRadius.circular(24.0),
-                            child: Image(
-                              fit: BoxFit.contain,
-                              alignment: Alignment.topLeft,
-                              image: AssetImage('images/books.png'),
+        appBar: AppBar(
+          title: Text('Pesanan Buku',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontFamily: "Poppins-Medium")),
+          backgroundColor: Color(0xFF61A4F1),
+        ),
+        backgroundColor: Color(0xFF73AEF5),
+        body: StreamBuilder(
+            stream: FirebaseFirestore.instance.collection('item').snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return ListView(
+                scrollDirection: Axis.vertical,
+                children: snapshot.data.docs.map<Widget>((document) {
+                  return Card(
+                    margin: EdgeInsets.only(
+                        right: 20, left: 20, top: 10, bottom: 10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                  'https://png.pngtree.com/thumb_back/fw800/back_our/20190620/ourmid/pngtree-blue-flat-gradient-background-promotion-main-map-image_161946.jpg'))),
+                      padding: EdgeInsets.only(
+                        right: 10,
+                        left: 10,
+                        top: 20,
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.network(
+                              document['image'],
+                              height: 224,
                             ),
                           ),
-                        ),
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: myDetailsContainer1(),
-                          ),
-                        ),
-                      ],
-                    )),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Container(
-              child: new FittedBox(
-                child: Material(
-                    color: Colors.white,
-                    elevation: 14.0,
-                    borderRadius: BorderRadius.circular(24.0),
-                    shadowColor: Color(0x802196F3),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          width: 100,
-                          height: 130,
-                          child: ClipRRect(
-                            borderRadius: new BorderRadius.circular(24.0),
-                            child: Image(
-                              fit: BoxFit.contain,
-                              alignment: Alignment.topLeft,
-                              image: AssetImage('images/books.png'),
+                          SizedBox(height: 5),
+                          Padding(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Text(
+                              document['judul'],
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
-                        ),
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: myDetailsContainer2(),
+                          SizedBox(
+                            height: 1,
                           ),
-                        ),
-                      ],
-                    )),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Container(
-              child: new FittedBox(
-                child: Material(
-                    color: Colors.white,
-                    elevation: 14.0,
-                    borderRadius: BorderRadius.circular(24.0),
-                    shadowColor: Color(0x802196F3),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          width: 100,
-                          height: 130,
-                          child: ClipRRect(
-                            borderRadius: new BorderRadius.circular(24.0),
-                            child: Image(
-                              fit: BoxFit.contain,
-                              alignment: Alignment.topLeft,
-                              image: AssetImage('images/books.png'),
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 10),
+                            child: Container(
+                              width: double.infinity,
+                              child: Text(
+                                "Stok : " + document['stok'],
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                                textAlign: TextAlign.right,
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 16.0),
-                            child: myDetailsContainer3(),
-                          ),
-                        ),
-                      ],
-                    )),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget myDetailsContainer1() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(bottom: 50, right: 50),
-          child: Container(
-              child: Text(
-            "Judul",
-            style: TextStyle(
-                color: Color(0xffe6020a),
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold),
-          )),
-        ),
-        Padding(
-            padding: const EdgeInsets.only(left: 80),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    width: 100,
-                    height: 25,
-                    child: Center(
-                      child: Text(
-                        'Total :',
-                        style: TextStyle(color: Colors.black),
+                        ],
                       ),
                     ),
-                  )
-                ])),
-      ],
-    );
-  }
-
-  Widget myDetailsContainer2() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(bottom: 50, right: 50),
-          child: Container(
-              child: Text(
-            "Judul",
-            style: TextStyle(
-                color: Color(0xffe6020a),
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold),
-          )),
-        ),
-        Padding(
-            padding: const EdgeInsets.only(left: 80),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    width: 100,
-                    height: 25,
-                    child: Center(
-                      child: Text(
-                        'Total :',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  )
-                ])),
-      ],
-    );
-  }
-
-  Widget myDetailsContainer3() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(bottom: 50, right: 50),
-          child: Container(
-              child: Text(
-            "Judul",
-            style: TextStyle(
-                color: Color(0xffe6020a),
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold),
-          )),
-        ),
-        Padding(
-            padding: const EdgeInsets.only(left: 80),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    width: 100,
-                    height: 25,
-                    child: Center(
-                      child: Text(
-                        'Total :',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  )
-                ])),
-      ],
-    );
+                  );
+                }).toList(),
+              );
+            }));
   }
 }
