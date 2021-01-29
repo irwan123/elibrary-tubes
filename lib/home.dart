@@ -1,3 +1,4 @@
+import 'package:elibrary/detail_book.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -105,58 +106,69 @@ class _HomePageState extends State<HomePage> {
                                       left: 20,
                                       bottom: 10,
                                     ),
-                                    child: Container(
-                                      width: 180,
-                                      color: Colors.white,
-                                      padding: EdgeInsets.only(
-                                        right: 10,
-                                        left: 10,
-                                        top: 20,
-                                      ),
-                                      child: Expanded(
-                                        child: Column(
-                                          children: <Widget>[
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              child: Image.network(
-                                                document['image'],
-                                                height: 110,
-                                              ),
-                                            ),
-                                            SizedBox(height: 5),
-                                            Padding(
-                                              padding: EdgeInsets.only(top: 10),
-                                              child: Text(
-                                                document['judul'],
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 1,
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  EdgeInsets.only(bottom: 10),
-                                              child: Container(
-                                                width: double.infinity,
-                                                child: Text(
-                                                  document['desc'],
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 10),
-                                                  textAlign: TextAlign.center,
+                                    child: InkWell(
+                                        onTap: () {
+                                          Navigator.of(context).pushReplacement(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      DetailBookPage(
+                                                        detail_buku: document,
+                                                      )));
+                                        },
+                                        child: Container(
+                                          width: 180,
+                                          color: Colors.white,
+                                          padding: EdgeInsets.only(
+                                            right: 10,
+                                            left: 10,
+                                            top: 20,
+                                          ),
+                                          child: Expanded(
+                                            child: Column(
+                                              children: <Widget>[
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  child: Image.network(
+                                                    document['image'],
+                                                    height: 110,
+                                                  ),
                                                 ),
-                                              ),
+                                                SizedBox(height: 5),
+                                                Padding(
+                                                  padding:
+                                                      EdgeInsets.only(top: 10),
+                                                  child: Text(
+                                                    document['judul'],
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 1,
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom: 10),
+                                                  child: Container(
+                                                    width: double.infinity,
+                                                    child: Text(
+                                                      document['desc'],
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 10),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                    ));
+                                          ),
+                                        )));
                               }).toList(),
                             );
                           }),
@@ -198,58 +210,69 @@ class _HomePageState extends State<HomePage> {
                             children:
                                 snapshot.data.docs.map<Widget>((document) {
                               return Card(
-                                margin: EdgeInsets.only(
-                                    right: 20, left: 20, bottom: 10),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                              'https://png.pngtree.com/thumb_back/fw800/back_our/20190620/ourmid/pngtree-blue-flat-gradient-background-promotion-main-map-image_161946.jpg'))),
-                                  padding: EdgeInsets.only(
-                                    right: 10,
-                                    left: 10,
-                                    top: 20,
-                                  ),
-                                  child: Column(
-                                    children: <Widget>[
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(20),
-                                        child: Image.network(
-                                          document['image'],
-                                          height: 219,
-                                        ),
+                                  margin: EdgeInsets.only(
+                                      right: 20, left: 20, bottom: 10),
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DetailBookPage(
+                                                    detail_buku: document,
+                                                  )));
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                  'https://png.pngtree.com/thumb_back/fw800/back_our/20190620/ourmid/pngtree-blue-flat-gradient-background-promotion-main-map-image_161946.jpg'))),
+                                      padding: EdgeInsets.only(
+                                        right: 10,
+                                        left: 10,
+                                        top: 20,
                                       ),
-                                      SizedBox(height: 5),
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 10),
-                                        child: Text(
-                                          document['judul'],
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 30,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 1,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(bottom: 10),
-                                        child: Container(
-                                          width: double.infinity,
-                                          child: Text(
-                                            "Stok : " + document['stok'],
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20),
-                                            textAlign: TextAlign.right,
+                                      child: Column(
+                                        children: <Widget>[
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            child: Image.network(
+                                              document['image'],
+                                              height: 219,
+                                            ),
                                           ),
-                                        ),
+                                          SizedBox(height: 5),
+                                          Padding(
+                                            padding: EdgeInsets.only(top: 10),
+                                            child: Text(
+                                              document['judul'],
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 30,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 1,
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsets.only(bottom: 10),
+                                            child: Container(
+                                              width: double.infinity,
+                                              child: Text(
+                                                "Stok : " + document['stok'],
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 20),
+                                                textAlign: TextAlign.right,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              );
+                                    ),
+                                  ));
                             }).toList(),
                           ));
                         }),
