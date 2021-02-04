@@ -48,7 +48,7 @@ class _PengembalianState extends State<Pengembalian> {
                     margin: EdgeInsets.only(
                         right: 20, left: 20, top: 10, bottom: 10),
                     child: Container(
-                      height: 250,
+                      height: 280,
                       child: Column(
                         children: <Widget>[
                           SizedBox(height: 5),
@@ -58,9 +58,9 @@ class _PengembalianState extends State<Pengembalian> {
                               document['judul_buku'],
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.left,
+                              textAlign: TextAlign.center,
                             ),
                           ),
                           SizedBox(
@@ -72,6 +72,17 @@ class _PengembalianState extends State<Pengembalian> {
                               document['image'],
                               height: 174,
                             ),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            'Tanggal Pinjam : ' + document['tgl_pinjam'],
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
                           ),
                         ],
                       ),

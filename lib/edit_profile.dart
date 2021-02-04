@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'main.dart';
 
 class Item {
   final String id;
@@ -55,6 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController imageController;
   TextEditingController stokController;
   File image;
+  final auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -66,6 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
   }
 
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +86,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Padding(
               padding: EdgeInsets.only(bottom: 10),
               child: Text(
-                "Edit Your Profile",
+                "Ubah Profil",
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 25,
@@ -137,6 +139,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             textAlignVertical: TextAlignVertical.center,
                             textAlign: TextAlign.left,
                             decoration: InputDecoration(
+                              suffixIcon: Icon(Icons.person),
                               border: OutlineInputBorder(),
                               labelText: 'Nama Lengkap',
                             ),
@@ -149,6 +152,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             textAlignVertical: TextAlignVertical.center,
                             textAlign: TextAlign.left,
                             decoration: InputDecoration(
+                              suffixIcon: Icon(Icons.email_rounded),
                               border: OutlineInputBorder(),
                               labelText: 'E-Mail',
                             ),
@@ -161,8 +165,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             textAlignVertical: TextAlignVertical.center,
                             textAlign: TextAlign.left,
                             decoration: InputDecoration(
+                              suffixIcon: Icon(Icons.vpn_key),
                               border: OutlineInputBorder(),
-                              labelText: 'Password',
+                              labelText: 'Kata Sandi',
                             ),
                           ),
                           SizedBox(
@@ -173,6 +178,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             textAlignVertical: TextAlignVertical.center,
                             textAlign: TextAlign.left,
                             decoration: InputDecoration(
+                              suffixIcon: Icon(Icons.call),
                               border: OutlineInputBorder(),
                               labelText: 'No Telepon',
                             ),
@@ -180,13 +186,19 @@ class _ProfilePageState extends State<ProfilePage> {
                           SizedBox(
                             height: 10,
                           ),
-                          TextField(
-                            controller: stokController,
-                            textAlignVertical: TextAlignVertical.center,
-                            textAlign: TextAlign.left,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'Alamat',
+                          Expanded(
+                            child: TextField(
+                              controller: stokController,
+                              minLines: 4,
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              textAlignVertical: TextAlignVertical.center,
+                              textAlign: TextAlign.left,
+                              decoration: InputDecoration(
+                                suffixIcon: Icon(Icons.location_on),
+                                border: OutlineInputBorder(),
+                                labelText: 'Alamat',
+                              ),
                             ),
                           ),
                           SizedBox(
@@ -214,7 +226,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 child: InkWell(
                                   onTap: () async {},
                                   child: Center(
-                                    child: Text("Edit",
+                                    child: Text("Ubah",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontFamily: "Poppins-Bold",
@@ -246,9 +258,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                 color: Colors.transparent,
                                 child: InkWell(
                                   onTap: () async {
+                                    auth.signOut();
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
-                                            builder: (context) => LoginPage()));
+                                            builder: (context) => MyApp()));
                                   },
                                   child: Center(
                                     child: Text("Keluar",

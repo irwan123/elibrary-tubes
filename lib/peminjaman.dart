@@ -9,14 +9,15 @@ class Pengembalianbuku {
   final String id_peminjaman;
   final String image;
   final String judul_buku;
+  final String tgl_pinjam;
 
-  Pengembalianbuku({
-    this.id_pengembalian,
-    this.id_buku,
-    this.id_peminjaman,
-    this.image,
-    this.judul_buku,
-  });
+  Pengembalianbuku(
+      {this.id_pengembalian,
+      this.id_buku,
+      this.id_peminjaman,
+      this.image,
+      this.judul_buku,
+      this.tgl_pinjam});
 
   factory Pengembalianbuku.fromJson(Map<String, dynamic> json) {
     return Pengembalianbuku(
@@ -25,6 +26,7 @@ class Pengembalianbuku {
       id_buku: json['id_buku'],
       image: json['image'],
       judul_buku: json['judul_buku'],
+      tgl_pinjam: json['tgl_pinjam'],
     );
   }
 
@@ -34,6 +36,7 @@ class Pengembalianbuku {
         'id_buku': id_buku,
         'image': image,
         'judul_buku': judul_buku,
+        'tgl_pinjam': tgl_pinjam
       };
 }
 
@@ -89,7 +92,7 @@ class _PeminjamanState extends State<Peminjaman> {
                     margin: EdgeInsets.only(
                         right: 20, left: 20, top: 10, bottom: 10),
                     child: Container(
-                      height: 300,
+                      height: 330,
                       child: Column(
                         children: <Widget>[
                           SizedBox(height: 5),
@@ -99,9 +102,9 @@ class _PeminjamanState extends State<Peminjaman> {
                               document['judul_buku'],
                               style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.left,
+                              textAlign: TextAlign.center,
                             ),
                           ),
                           SizedBox(
@@ -117,11 +120,17 @@ class _PeminjamanState extends State<Peminjaman> {
                           SizedBox(
                             height: 15,
                           ),
-                          SizedBox(
-                            height: 1,
+                          Text(
+                            'Tanggal Kembali : ' +
+                                document['tgl_kembali'].toString(),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
                           ),
                           Padding(
-                            padding: EdgeInsets.only(left: 170),
+                            padding: EdgeInsets.only(top: 20, left: 170),
                             child: InkWell(
                               child: Container(
                                 width: 130,
@@ -152,12 +161,15 @@ class _PeminjamanState extends State<Peminjaman> {
                                               id_peminjaman:
                                                   document['id_peminjaman']
                                                       .toString(),
-                                              id_buku: document['id_buku']
-                                                  .toString(),
+                                              id_buku:
+                                                  document['id_buku']
+                                                      .toString(),
                                               image:
                                                   document['image'].toString(),
                                               judul_buku:
-                                                  document['judul_buku']);
+                                                  document['judul_buku'],
+                                              tgl_pinjam: document['tgl_pinjam']
+                                                  .toString());
                                       if (widget.pengembalian == null) {
                                         FirebaseFirestore.instance
                                             .collection('pengembalian')
