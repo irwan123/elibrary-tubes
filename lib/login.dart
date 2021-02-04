@@ -4,9 +4,9 @@ import 'package:elibrary/dashboard.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
-import 'home.dart';
 import 'slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'reset.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -110,6 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                               TextFormField(
                                 keyboardType: TextInputType.emailAddress,
                                 decoration: InputDecoration(
+                                    suffixIcon: Icon(Icons.email_sharp),
                                     hintText: "E-mail",
                                     hintStyle: TextStyle(
                                         color: Colors.grey, fontSize: 15.0)),
@@ -125,6 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                               TextFormField(
                                 obscureText: true,
                                 decoration: InputDecoration(
+                                    suffixIcon: Icon(Icons.vpn_key_rounded),
                                     hintText: "Password",
                                     hintStyle: TextStyle(
                                         color: Colors.grey, fontSize: 15.0)),
@@ -150,11 +152,18 @@ class _LoginPageState extends State<LoginPage> {
                           SizedBox(
                             width: 5.0,
                           ),
-                          Text("Forgot Password ?",
-                              style: TextStyle(
-                                  color: Colors.blueAccent,
-                                  fontSize: 15,
-                                  fontFamily: "Poppins-Medium")),
+                          TextButton(
+                            child: Text("Forgot Password ?",
+                                style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontSize: 15,
+                                    fontFamily: "Poppins-Medium")),
+                            onPressed: () async {
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) => ResetPage()));
+                            },
+                          ),
                         ],
                       ),
                       InkWell(
@@ -205,21 +214,25 @@ class _LoginPageState extends State<LoginPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Expanded(
-                          child: RichText(
-                              text: TextSpan(
-                                  style: TextStyle(
-                                    color: Colors.blue,
-                                  ),
-                                  text: '<Back',
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () async {
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => SliderPage()),
-                                      );
-                                    }))),
+                      Padding(
+                        padding: EdgeInsets.only(right: 240),
+                        child: Expanded(
+                            child: RichText(
+                                text: TextSpan(
+                                    style: TextStyle(
+                                      color: Colors.blue,
+                                    ),
+                                    text: '<Back',
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () async {
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SliderPage()),
+                                        );
+                                      }))),
+                      )
                     ],
                   ),
                   SizedBox(
